@@ -1,6 +1,6 @@
 <script>
 	import EditInPlaceText from '$lib/components/EditInPlaceText.svelte';
-	import SingleSelection from '$lib/components/SingleSelection.svelte';
+	import SelectDropdown from '$lib/components/SelectDropdown.svelte';
 	import Ellipsis from '$lib/icons/Ellipsis.svelte';
 	import EditButtonText from '$lib/components/EditButtonText.svelte';
 	import { Drawer } from 'vaul-svelte';
@@ -11,7 +11,8 @@
 		<h2 class="text-lg font-medium">
 			<EditInPlaceText value="Lesson Name" label="Edit lesson name" on:submit={console.log} />
 		</h2>
-		<SingleSelection
+		<SelectDropdown
+			mode="dropdown"
 			label="Select version"
 			name="version-menu"
 			options={[
@@ -36,6 +37,15 @@
 					<EditButtonText value="Lesson Name" />
 				</h2>
 				<div role="separator" aria-orientation="vertical" class="h-[1px] w-full bg-zinc-200" />
+				<SelectDropdown
+					mode="drawer"
+					label="Select version"
+					name="version-menu-mobile"
+					options={[
+						{ value: '1', label: 'V1' },
+						{ value: '0', label: 'V0' }
+					]}
+				/>
 			</Drawer.Content>
 		</Drawer.Portal>
 	</Drawer.Root>
