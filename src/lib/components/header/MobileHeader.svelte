@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Logo from '$lib/icons/Logo.svelte';
-	import LessonProps from '$lib/components/LessonProps.svelte';
 	import NavTabs from '$lib/components/header/NavTabs.svelte';
 	import HistoryControls from '$lib/components/HistoryControls.svelte';
 	import InviteButton from '$lib/components/InviteButton.svelte';
 	import ShareButton from '$lib/components/ShareButton.svelte';
 	import SubmitLesson from '$lib/components/SubmitLesson.svelte';
+	import LessonProps from '$lib/features/lessons/components/LessonProps.svelte';
 
 	export let className = '';
 </script>

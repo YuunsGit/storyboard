@@ -5,8 +5,8 @@
 	import InviteWidget from '$lib/components/InviteWidget.svelte';
 	import SubmitLesson from '$lib/components/SubmitLesson.svelte';
 	import ShareButton from '$lib/components/ShareButton.svelte';
-	import LessonProps from '$lib/components/LessonProps.svelte';
 	import MobileHeader from '$lib/components/header/MobileHeader.svelte';
+	import LessonProps from '$lib/features/lessons/components/LessonProps.svelte';
 </script>
 
 <header class="border-b border-zinc-200 bg-white">

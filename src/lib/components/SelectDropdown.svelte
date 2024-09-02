@@ -4,6 +4,7 @@
 	import cn from '$lib/utils/cn';
 	import Expand from '$lib/icons/Expand.svelte';
 	import Check from '$lib/icons/Check.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	type Option = {
 		value: string;
@@ -13,6 +14,8 @@
 	let isOpen = false;
 	let focusedIndex = -1;
 	let dropdown: HTMLDivElement;
+
+	const dispatch = createEventDispatcher();
 
 	export let mode: 'drawer' | 'dropdown';
 	export let name: string;
@@ -31,6 +34,7 @@
 
 	function selectOption(option: Option) {
 		selected = option;
+		dispatch('submit', { value: selected.value });
 		toggleDropdown();
 	}
 
@@ -79,7 +83,7 @@
 			aria-haspopup="listbox"
 			aria-expanded={isOpen}
 			aria-controls={isOpen ? `menu-${name}` : null}
-			class="flex items-center gap-x-2 rounded-lg bg-zinc-100 px-2 py-1.5 text-xs text-zinc-600 transition-colors hover:bg-zinc-200 active:bg-zinc-300"
+			class="flex min-w-14 items-center gap-x-2 rounded-lg bg-zinc-100 px-2 py-1.5 text-xs text-zinc-600 transition-colors hover:bg-zinc-200 active:bg-zinc-300"
 			on:click={toggleDropdown}
 			on:keydown={handleKeydown}
 		>

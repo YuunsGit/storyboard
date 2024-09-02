@@ -1,9 +1,25 @@
-<script>
+<script lang="ts">
+	import type { ComponentEvents } from 'svelte';
 	import EditInPlaceText from '$lib/components/EditInPlaceText.svelte';
 	import SelectDropdown from '$lib/components/SelectDropdown.svelte';
 	import Ellipsis from '$lib/icons/Ellipsis.svelte';
 	import EditButtonText from '$lib/components/EditButtonText.svelte';
 	import { Drawer } from 'vaul-svelte';
+	import { lesson } from '$lib/features/lessons/stores';
+
+	$: options = lesson.versions.map(({ versionNumber }: { versionNumber: number }) => ({
+		value: versionNumber.toString(),
+		label: `V${versionNumber}`
+	}));
+
+	const switchVersion = (event: ComponentEvents<SelectDropdown>['submit']) => {
+		lesson.update((current) => ({
+			...current,
+			selectedVersion: {
+				versionNumber: parseInt(event.detail.value)
+			}
+		}));
+	};
 </script>
 
 <div>
@@ -15,10 +31,8 @@
 			mode="dropdown"
 			label="Select version"
 			name="version-menu"
-			options={[
-				{ value: '1', label: 'V1' },
-				{ value: '0', label: 'V0' }
-			]}
+			on:submit={switchVersion}
+			{options}
 		/>
 	</div>
 	<Drawer.Root>
@@ -41,10 +55,8 @@
 					mode="drawer"
 					label="Select version"
 					name="version-menu-mobile"
-					options={[
-						{ value: '1', label: 'V1' },
-						{ value: '0', label: 'V0' }
-					]}
+					on:submit={switchVersion}
+					{options}
 				/>
 			</Drawer.Content>
 		</Drawer.Portal>

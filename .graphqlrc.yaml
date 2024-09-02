@@ -1,0 +1,7 @@
+projects:
+  default:
+    schema: http://localhost:3001/rpc/graphql
+    documents:
+      - '**/*.gql'
+      - '**/*.svelte'
+      - ./$houdini/graphql/documents.gql
