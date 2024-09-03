@@ -87,7 +87,7 @@
 			on:click={toggleDropdown}
 			on:keydown={handleKeydown}
 		>
-			{selected.label}
+			{selected?.label}
 			<Expand className={cn('size-3 fill-zinc-400', isOpen && 'rotate-180')} />
 		</button>
 		{#if isOpen}

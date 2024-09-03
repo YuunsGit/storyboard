@@ -9,7 +9,9 @@
 	let input: HTMLTextAreaElement;
 	export let value: string;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{
+		save: { value: string };
+	}>();
 
 	function startEditing() {
 		if (isEditing) return;
@@ -25,7 +27,7 @@
 	function submit() {
 		const trimmedValue = editedValue.trim();
 		if (!trimmedValue) return;
-		if (trimmedValue !== value) dispatch('submit', { value: trimmedValue });
+		if (trimmedValue !== value) dispatch('save', { value: trimmedValue });
 		value = trimmedValue;
 		isEditing = false;
 	}

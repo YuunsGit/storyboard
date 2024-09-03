@@ -1,0 +1,15 @@
+mutation EditLesson($id: UUID!, $input: LessonsUpdateInput!) {
+    updateLessonsCollection(filter: { id: { eq: $id } }, set: $input) {
+        records {
+            id
+            title
+            versionsCollection {
+                edges {
+                    node {
+                        versionNumber
+                    }
+                }
+            }
+        }
+    }
+}

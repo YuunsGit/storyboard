@@ -1,0 +1,17 @@
+query GetFirstLesson {
+    lessonsCollection(first: 1) {
+        edges {
+            node {
+                id
+                title
+                versionsCollection {
+                    edges {
+                        node {
+                            versionNumber
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

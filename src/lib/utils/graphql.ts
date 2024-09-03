@@ -1,20 +1,36 @@
-export async function gql(query: string, variables = {}) {
-	const res = await fetch('http://rest:3000/rpc/graphql', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			query,
-			variables
-		})
+import {
+	cacheExchange,
+	type Client,
+	createClient,
+	fetchExchange,
+	type OperationResultStore
+} from '@urql/svelte';
+import { browser } from '$app/environment';
+import type { LoadEvent } from '@sveltejs/kit';
+
+export const initGraphQLClient = (fetch?: LoadEvent['fetch']): Client =>
+	createClient({
+		url: import.meta.env.VITE_GRAPHQL_ENDPOINT,
+		fetch,
+		exchanges: [cacheExchange, fetchExchange]
 	});
 
-	const { data, errors } = await res.json();
-
-	if (errors) {
-		throw new Error(errors[0].message);
+export const loadWaitForNoFetch = async <T extends Record<string, OperationResultStore>>(
+	queries: T
+): Promise<T> => {
+	if (!browser) {
+		await Promise.all(
+			Object.values(queries).map(
+				(query) =>
+					new Promise<void>((resolve) => {
+						query.subscribe((res) => {
+							if (!res.fetching) {
+								resolve();
+							}
+						});
+					})
+			)
+		);
 	}
-
-	return data;
-}
+	return queries;
+};

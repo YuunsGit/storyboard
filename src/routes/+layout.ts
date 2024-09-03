@@ -1,8 +1,9 @@
-import { gql } from '$lib/utils/graphql';
-import { getFirstLesson } from '$lib/features/lessons/queries';
+import { initGraphQLClient } from '$lib/utils/graphql';
 
-export async function load() {
+export const load = async ({ fetch }) => {
+	const client = initGraphQLClient(fetch);
+
 	return {
-		lesson: await gql(getFirstLesson)
+		client
 	};
-}
+};

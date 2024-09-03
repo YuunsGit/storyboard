@@ -10,7 +10,9 @@
 	export let label;
 	export let value: string;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{
+		save: { value: string };
+	}>();
 
 	function startEditing() {
 		if (isEditing) return;
@@ -26,9 +28,11 @@
 	function submit() {
 		const trimmedValue = editedValue.trim();
 		if (!trimmedValue) return;
-		if (trimmedValue !== value) dispatch('submit', { value: trimmedValue });
-		value = trimmedValue;
 		isEditing = false;
+		if (trimmedValue !== value) {
+			dispatch('save', { value: trimmedValue });
+		}
+		value = trimmedValue;
 	}
 
 	function cancel() {
@@ -51,7 +55,7 @@
 
 <form
 	role="presentation"
-	class="relative z-0 flex items-center justify-center before:absolute before:-inset-x-1 before:inset-y-0 before:-z-10 before:rounded before:transition-colors hover:before:bg-zinc-100"
+	class="relative z-0 flex items-center justify-center before:absolute before:inset-0 before:-z-10 before:rounded before:transition-colors hover:before:bg-zinc-100"
 	on:click={startEditing}
 	on:submit|preventDefault|stopPropagation={submit}
 >
@@ -91,7 +95,7 @@
 		<span
 			class="line-clamp-1 w-max max-w-[216px] rounded-sm px-1 leading-[1.4] [word-break:break-all] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-[-webkit-focus-ring-color]"
 		>
-			{editedValue || value}
+			{value}
 		</span>
 	{/if}
 </form>
