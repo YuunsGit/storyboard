@@ -5,10 +5,11 @@
 Live preview of the application: [studio.yunusemre.dev](https://studio.yunusemre.dev/)
 
 ## Prerequisites
-Before installing the UAV Monitoring App, ensure that you have the following prerequisites installed on your system:
+Before installing the app, ensure that you have the following prerequisites installed on your system:
 
 - Node.js (v20.x or higher)
 - pnpm (v8.x or higher)
+- Docker and Docker Compose
 
 ## Installation
 
