@@ -71,7 +71,7 @@
 			<span
 				class="line-clamp-1 w-max max-w-[216px] rounded-sm px-1 leading-[1.4] [word-break:break-all]"
 			>
-				{editedValue || value}
+				{value}
 			</span>
 			<button type="button" on:click={startEditing} class="transition-colors active:text-zinc-300">
 				<Edit className="size-5" />

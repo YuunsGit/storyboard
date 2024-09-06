@@ -1,41 +1,16 @@
 <script lang="ts">
 	import Logo from '$lib/icons/Logo.svelte';
 	import NavTabs from '$lib/components/header/NavTabs.svelte';
-	import HistoryControls from '$lib/components/HistoryControls.svelte';
-	import InviteWidget from '$lib/components/InviteWidget.svelte';
-	import SubmitLesson from '$lib/components/SubmitLesson.svelte';
-	import ShareButton from '$lib/components/ShareButton.svelte';
+	import HistoryControls from '$lib/components/header/HistoryControls.svelte';
+	import InviteWidget from '$lib/components/header/InviteWidget.svelte';
 	import MobileHeader from '$lib/components/header/MobileHeader.svelte';
 	import LessonProps from '$lib/features/lessons/components/LessonProps.svelte';
-	import { getContextClient, queryStore } from '@urql/svelte';
-	import { GetFirstLessonDocument, type GetFirstLessonQuery } from '$lib/gql/graphql';
-	import { lesson } from '$lib/features/lessons/stores';
-
-	let client = getContextClient();
-
-	const firstLessonStore = queryStore<GetFirstLessonQuery>({
-		client,
-		query: GetFirstLessonDocument
-	});
-
-	$: {
-		if ($firstLessonStore.data) {
-			const firstLesson = $firstLessonStore?.data?.lessonsCollection?.edges[0].node;
-			lesson.set({
-				title: firstLesson?.title,
-				id: firstLesson?.id,
-				versions: firstLesson?.versionsCollection?.edges
-					.map((edge) => edge.node.versionNumber)
-					.filter((version): version is number => version !== null && version !== undefined)
-			});
-		}
-	}
+	import Button from '$lib/components/Button.svelte';
+	import Share from '$lib/icons/Share.svelte';
 </script>
 
-<header class="border-b border-zinc-200 bg-white">
-	<div
-		class="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between px-6 max-lg:hidden"
-	>
+<header class="sticky top-0 z-40 border-b border-zinc-200 bg-white lg:px-5">
+	<div class="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between max-lg:hidden">
 		<div class="flex flex-1 items-center gap-x-4">
 			<a href="/">
 				<Logo className="size-6" />
@@ -44,14 +19,17 @@
 			<div role="separator" aria-orientation="horizontal" class="h-6 w-[1px] bg-zinc-200" />
 			<LessonProps />
 		</div>
-		<div class="flex-1">
+		<div>
 			<NavTabs />
 		</div>
-		<div class="flex flex-1 items-center gap-x-4">
+		<div class="flex flex-1 items-center justify-end gap-x-4">
 			<HistoryControls />
 			<InviteWidget />
-			<ShareButton />
-			<SubmitLesson />
+			<Button style={'outlined'}>
+				<Share className="size-5" />
+				<span class="sr-only">Invite</span>
+			</Button>
+			<Button style={'solid'}>Submit</Button>
 		</div>
 	</div>
 	<MobileHeader className="lg:hidden" />

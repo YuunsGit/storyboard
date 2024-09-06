@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
+import type { Lesson } from './types';
+import type { Store } from '$lib/utils/types';
 
-export const lesson = writable<{
-	title?: string | null;
-	versions?: number[] | null;
-	id?: string | null;
-} | null>(null);
+export const lessonStore = writable<Store<Lesson | undefined>>({
+	loading: false
+});

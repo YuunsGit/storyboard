@@ -9,7 +9,7 @@ services:
       - "5173:5173"
     volumes:
       - .:/app
-      - nm:/app/node_modules
+      - nodem:/app/node_modules
     environment:
       NODE_ENV: ${NODE_ENV}
     depends_on:
@@ -54,4 +54,4 @@ services:
       - db
 
 volumes:
-  nm:
+  nodem:

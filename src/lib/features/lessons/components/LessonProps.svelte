@@ -4,38 +4,30 @@
 	import SelectDropdown from '$lib/components/SelectDropdown.svelte';
 	import Ellipsis from '$lib/icons/Ellipsis.svelte';
 	import EditButtonText from '$lib/components/EditButtonText.svelte';
-	import { getContextClient, mutationStore, type OperationResultStore } from '@urql/svelte';
-	import { EditLessonDocument, type EditLessonMutation } from '$lib/gql/graphql';
-	import { lesson } from '$lib/features/lessons/stores';
+	import { getContextClient } from '@urql/svelte';
+	import { lessonStore } from '$lib/features/lessons/stores';
 	import toast from 'svelte-french-toast';
+	import { updateLesson } from '$lib/features/lessons/utils';
 
-	let updatedLessonStore: OperationResultStore<EditLessonMutation>;
 	let client = getContextClient();
 
-	const updateLessonTitle = (e: CustomEvent<{ value: string }>) => {
-		updatedLessonStore = mutationStore<EditLessonMutation>({
-			client,
-			query: EditLessonDocument,
-			variables: {
-				id: $lesson?.id,
-				input: {
-					title: e.detail.value
-				}
+	function handleSave(e: CustomEvent<{ value: string }>) {
+		if (!$lessonStore.data?.id) return;
+		$lessonStore.loading = true;
+		toast.promise(
+			updateLesson(client, { id: $lessonStore.data?.id, title: e.detail.value }).finally(() => {
+				$lessonStore.loading = false;
+			}),
+			{
+				loading: 'Saving...',
+				success: 'Lesson name updated',
+				error: 'Failed to update lesson title'
 			}
-		});
-	};
-
-	$: {
-		if ($updatedLessonStore)
-			if ($updatedLessonStore.error) {
-				toast.error('Failed to update lesson title');
-			} else if ($updatedLessonStore.data) {
-				toast.success('Lesson title updated successfully');
-			}
+		);
 	}
 
 	$: options =
-		$lesson?.versions
+		$lessonStore.data?.versions
 			?.filter((version) => version)
 			.map((version) => ({
 				value: version.toString(),
@@ -45,14 +37,16 @@
 
 <div>
 	<div class="flex items-center gap-x-2 max-lg:hidden">
-		{#if !$lesson || ($updatedLessonStore && $updatedLessonStore.fetching)}
+		{#if $lessonStore.loading || !$lessonStore.data}
 			<div class="h-5 w-32 animate-pulse rounded-lg bg-zinc-100" aria-hidden="true" />
 		{:else}
 			<h2 class="text-lg font-medium">
 				<EditInPlaceText
-					value={$lesson.title || 'Lesson Name'}
+					value={$lessonStore.data?.title || 'Lesson Name'}
 					label="Edit lesson name"
-					on:save={updateLessonTitle}
+					limitWidth={true}
+					limitRows={true}
+					on:save={handleSave}
 				/>
 			</h2>
 			<SelectDropdown mode="dropdown" label="Select version" name="version-menu" {options} />
@@ -71,7 +65,7 @@
 				class="fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col space-y-4 rounded-t-lg border bg-white px-4 py-6"
 			>
 				<h2 class="text-lg font-medium">
-					<EditButtonText value={$lesson?.title || ''} on:save={updateLessonTitle} />
+					<EditButtonText value={$lessonStore.data?.title || 'Lesson Name'} on:save={handleSave} />
 				</h2>
 				<div role="separator" aria-orientation="vertical" class="h-[1px] w-full bg-zinc-200" />
 				<SelectDropdown mode="drawer" label="Select version" name="version-menu-mobile" {options} />

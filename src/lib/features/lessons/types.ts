@@ -1,9 +1,5 @@
 export type Lesson = {
-	title: string;
-	selectedVersion: Version;
-	versions: Version[];
-};
-
-export type Version = {
-	versionNumber: number;
+	title?: string | null;
+	versions?: number[] | null;
+	id?: string | null;
 };
