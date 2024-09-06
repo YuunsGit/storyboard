@@ -7,9 +7,8 @@ Live preview of the application: [studio.yunusemre.dev](https://studio.yunusemre
 ## Prerequisites
 Before installing the app, ensure that you have the following prerequisites installed on your system:
 
-- Node.js (v20.x or higher)
-- pnpm (v8.x or higher)
-- Docker and Docker Compose
+- Docker
+- Docker Compose
 
 ## Installation
 
