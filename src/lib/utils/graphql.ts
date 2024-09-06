@@ -1,11 +1,4 @@
-import {
-	cacheExchange,
-	type Client,
-	createClient,
-	fetchExchange,
-	type OperationResultStore
-} from '@urql/svelte';
-import { browser } from '$app/environment';
+import { cacheExchange, type Client, createClient, fetchExchange } from '@urql/svelte';
 import type { LoadEvent } from '@sveltejs/kit';
 
 export const initGraphQLClient = (fetch?: LoadEvent['fetch']): Client =>
@@ -14,23 +7,3 @@ export const initGraphQLClient = (fetch?: LoadEvent['fetch']): Client =>
 		fetch,
 		exchanges: [cacheExchange, fetchExchange]
 	});
-
-export const loadWaitForNoFetch = async <T extends Record<string, OperationResultStore>>(
-	queries: T
-): Promise<T> => {
-	if (!browser) {
-		await Promise.all(
-			Object.values(queries).map(
-				(query) =>
-					new Promise<void>((resolve) => {
-						query.subscribe((res) => {
-							if (!res.fetching) {
-								resolve();
-							}
-						});
-					})
-			)
-		);
-	}
-	return queries;
-};

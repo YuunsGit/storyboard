@@ -64,7 +64,7 @@
 		name="description"
 		content="Storyboard studio is a platform for creating and sharing storyboards"
 	/>
-	<link rel="canonical" href="https://st.yunusemre.dev" />
+	<link rel="canonical" href="https://studio.yunusemre.dev" />
 	<meta property="og:title" content="Storyboard Studio" />
 	<meta
 		property="og:description"
