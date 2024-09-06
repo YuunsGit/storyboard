@@ -56,5 +56,5 @@ jobs:
               npm install -g pnpm
             fi
             pnpm install --frozen-lockfile &&
-            docker compose --profile prod --env-file .env.prod up -d
+            docker compose --profile prod --env-file .env.production up -d
           '
