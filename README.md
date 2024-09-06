@@ -33,6 +33,8 @@ Before installing the app, ensure that you have the following prerequisites inst
 ## Tech Stack:
 - **<ins>SvelteKit</ins>** as meta-frontend framework
 - **<ins>TypeScript</ins>** for typesafe development
+- **<ins>PostgreSQL</ins>** for relational database
+- **<ins>pg_graphql</ins>** for GraphQL support
 - **<ins>Tailwind CSS</ins>** for utility CSS
 - **<ins>GraphQL</ins>** for API queries and mutations
 - **<ins>urql</ins>** as GraphQL client
